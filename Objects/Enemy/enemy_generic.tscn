@@ -1,0 +1,55 @@
+[gd_scene load_steps=6 format=3 uid="uid://cq33f484bqp6j"]
+
+[ext_resource type="Script" path="res://Objects/Enemy/enemy_generic.gd" id="1_yg12y"]
+[ext_resource type="Texture2D" uid="uid://oty4fc6r0vx7" path="res://Objects/Enemy/enemy_placeholder.png" id="2_wi5vq"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_6jidr"]
+radius = 7.0
+
+[sub_resource type="SystemFont" id="SystemFont_43m1s"]
+font_names = PackedStringArray("Certa Sans")
+subpixel_positioning = 0
+multichannel_signed_distance_field = true
+
+[sub_resource type="LabelSettings" id="LabelSettings_kv4c8"]
+font = SubResource("SystemFont_43m1s")
+font_size = 8
+
+[node name="EnemyGeneric" type="PathFollow2D"]
+script = ExtResource("1_yg12y")
+
+[node name="Hitbox" type="Area2D" parent="."]
+collision_layer = 16
+collision_mask = 32
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+shape = SubResource("CircleShape2D_6jidr")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_wi5vq")
+
+[node name="Debug" type="Node" parent="."]
+
+[node name="Label" type="Label" parent="Debug"]
+offset_left = -10.0
+offset_top = -6.0
+offset_right = 11.0
+offset_bottom = 4.0
+size_flags_horizontal = 4
+text = "speed"
+label_settings = SubResource("LabelSettings_kv4c8")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ProgressBar" type="ProgressBar" parent="Debug"]
+visible = false
+anchors_preset = -1
+anchor_left = -0.008
+anchor_right = 0.007
+offset_left = -40.784
+offset_top = -38.0
+offset_right = -54.064
+offset_bottom = -11.0
+size_flags_horizontal = 0
+value = 100.0
+metadata/_edit_use_anchors_ = true

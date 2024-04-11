@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="EffectedProperties" load_steps=2 format=3 uid="uid://ycbqv2p7541b"]
+
+[ext_resource type="Script" path="res://Objects/Effects/effected_properties.gd" id="1_s2ype"]
+
+[resource]
+resource_local_to_scene = true
+script = ExtResource("1_s2ype")
+property_name = "speed"
+property_modificator = 10.0
+modificator_mode = 1

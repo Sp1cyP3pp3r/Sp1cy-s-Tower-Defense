@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://c570uof0qv71g"]
+
+[ext_resource type="Script" path="res://Objects/Enemy/enemy_path.gd" id="1_rg48i"]
+
+[sub_resource type="Curve2D" id="Curve2D_2nus4"]
+resource_local_to_scene = true
+
+[node name="EnemyPath" type="Path2D"]
+curve = SubResource("Curve2D_2nus4")
+script = ExtResource("1_rg48i")

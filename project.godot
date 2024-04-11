@@ -1,0 +1,32 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="Sp1cy's Tower Defense"
+run/main_scene="res://basic_test_level.tscn"
+config/features=PackedStringArray("4.2", "GL Compatibility")
+config/icon="res://icon.svg"
+
+[layer_names]
+
+2d_physics/layer_1="ground (buildable)"
+2d_physics/layer_2="obstacle (nonbuildable)"
+2d_physics/layer_3="wall impenetrable"
+2d_physics/layer_4="no see-through"
+2d_physics/layer_5="enemy"
+2d_physics/layer_6="projectile"
+2d_physics/layer_7="building"
+
+[rendering]
+
+textures/canvas_textures/default_texture_filter=3
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"

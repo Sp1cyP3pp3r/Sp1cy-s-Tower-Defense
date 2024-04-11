@@ -1,0 +1,9 @@
+[gd_scene load_steps=4 format=3 uid="uid://cedp0tc8b2l2v"]
+
+[ext_resource type="Script" path="res://Objects/Effects/slow_debuff.gd" id="1_cac2j"]
+[ext_resource type="Resource" uid="uid://ycbqv2p7541b" path="res://Objects/Effects/debug/slow_perc.tres" id="2_201pm"]
+[ext_resource type="Resource" uid="uid://my3k4g0cb6jb" path="res://Objects/Effects/debug/slow_add.tres" id="3_506nb"]
+
+[node name="SlowDebuff" type="Node"]
+script = ExtResource("1_cac2j")
+properties_array = Array[Resource("res://Objects/Effects/effected_properties.gd")]([ExtResource("2_201pm"), ExtResource("3_506nb")])

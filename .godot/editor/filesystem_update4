@@ -1,0 +1,11 @@
+res://basic_test_level.tscn
+res://tilemap.tres
+res://Objects/Effects/debug/slow_perc.tres
+res://Objects/Effects/debug/slow_add.tres
+res://Objects/Enemy/enemy_path.tscn
+res://Objects/Enemy/enemy_generic.tscn
+res://Objects/Enemy/Director/enemy_path_director.tscn
+res://Objects/Effects/Effect.tscn
+res://Objects/Effects/slow_debuff.tscn
+res://Objects/Effects/rupture.tscn
+res://Objects/Effects/Effect.gd

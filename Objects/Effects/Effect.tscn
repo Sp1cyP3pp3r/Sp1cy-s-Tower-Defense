@@ -1,0 +1,32 @@
+[gd_scene load_steps=7 format=3 uid="uid://b8ipvqjdlnwt4"]
+
+[ext_resource type="Script" path="res://Objects/Effects/Effect.gd" id="1_knr6w"]
+[ext_resource type="Script" path="res://Objects/Effects/effected_properties.gd" id="2_8hkxx"]
+
+[sub_resource type="Resource" id="Resource_myhea"]
+script = ExtResource("2_8hkxx")
+property_name = "speed"
+property_modificator = 45.0
+modificator_mode = 0
+
+[sub_resource type="Resource" id="Resource_1j60e"]
+script = ExtResource("2_8hkxx")
+property_name = "speed"
+property_modificator = 24.0
+modificator_mode = 0
+
+[sub_resource type="Resource" id="Resource_7e0ec"]
+script = ExtResource("2_8hkxx")
+property_name = "sex"
+property_modificator = 1.0
+modificator_mode = 1
+
+[sub_resource type="Resource" id="Resource_ub6qu"]
+script = ExtResource("2_8hkxx")
+property_name = "gay porn"
+property_modificator = 69.0
+modificator_mode = 0
+
+[node name="Effect" type="Node" groups=["effects"]]
+script = ExtResource("1_knr6w")
+properties_array = Array[ExtResource("2_8hkxx")]([SubResource("Resource_myhea"), SubResource("Resource_1j60e"), SubResource("Resource_7e0ec"), SubResource("Resource_ub6qu")])
