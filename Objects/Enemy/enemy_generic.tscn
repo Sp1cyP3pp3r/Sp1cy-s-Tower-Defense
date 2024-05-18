@@ -1,32 +1,32 @@
-[gd_scene load_steps=6 format=3 uid="uid://cq33f484bqp6j"]
+[gd_scene load_steps=7 format=3 uid="uid://cq33f484bqp6j"]
 
 [ext_resource type="Script" path="res://Objects/Enemy/enemy_generic.gd" id="1_yg12y"]
+[ext_resource type="Script" path="res://Objects/Enemy/enemy_stats.gd" id="2_547vt"]
 [ext_resource type="Texture2D" uid="uid://oty4fc6r0vx7" path="res://Objects/Enemy/enemy_placeholder.png" id="2_wi5vq"]
+[ext_resource type="PackedScene" uid="uid://c60wqnmed5dvi" path="res://Objects/health.tscn" id="3_bec11"]
+[ext_resource type="LabelSettings" uid="uid://cej7crv8jmoia" path="res://Objects/Enemy/debug_font.tres" id="4_l6a2f"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_6jidr"]
-radius = 7.0
-
-[sub_resource type="SystemFont" id="SystemFont_43m1s"]
-font_names = PackedStringArray("Certa Sans")
-subpixel_positioning = 0
-multichannel_signed_distance_field = true
-
-[sub_resource type="LabelSettings" id="LabelSettings_kv4c8"]
-font = SubResource("SystemFont_43m1s")
-font_size = 8
+[sub_resource type="Resource" id="Resource_yxep3"]
+resource_local_to_scene = true
+script = ExtResource("2_547vt")
+speed = 30.0
+max_hp = 100.0
+damage_resistance = 5.0
+healing_resistance = 0.0
 
 [node name="EnemyGeneric" type="PathFollow2D"]
 script = ExtResource("1_yg12y")
+stats = SubResource("Resource_yxep3")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_wi5vq")
 
 [node name="Hitbox" type="Area2D" parent="."]
 collision_layer = 16
 collision_mask = 32
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
-shape = SubResource("CircleShape2D_6jidr")
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_wi5vq")
+[node name="CollisionShape2D" type="CollisionPolygon2D" parent="Hitbox"]
+polygon = PackedVector2Array(-3, -8, 8, 0, -3, 8, -8, 0)
 
 [node name="Debug" type="Node" parent="."]
 
@@ -37,19 +37,12 @@ offset_right = 11.0
 offset_bottom = 4.0
 size_flags_horizontal = 4
 text = "speed"
-label_settings = SubResource("LabelSettings_kv4c8")
+label_settings = ExtResource("4_l6a2f")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ProgressBar" type="ProgressBar" parent="Debug"]
-visible = false
-anchors_preset = -1
-anchor_left = -0.008
-anchor_right = 0.007
-offset_left = -40.784
-offset_top = -38.0
-offset_right = -54.064
-offset_bottom = -11.0
-size_flags_horizontal = 0
-value = 100.0
-metadata/_edit_use_anchors_ = true
+[node name="Health" parent="." node_paths=PackedStringArray("parent") instance=ExtResource("3_bec11")]
+parent = NodePath("..")
+
+[connection signal="area_entered" from="Hitbox" to="." method="bullet_hit"]
+[connection signal="final_blow" from="Health" to="." method="death"]

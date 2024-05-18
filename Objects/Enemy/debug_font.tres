@@ -1,0 +1,10 @@
+[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://cej7crv8jmoia"]
+
+[sub_resource type="SystemFont" id="SystemFont_43m1s"]
+font_names = PackedStringArray("Certa Sans")
+subpixel_positioning = 0
+multichannel_signed_distance_field = true
+
+[resource]
+font = SubResource("SystemFont_43m1s")
+font_size = 8

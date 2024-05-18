@@ -1,5 +1,8 @@
-res://Objects/Effects/debug
-res://Objects/Effects
-res://Objects/Enemy/Director
 res://Objects/Enemy
+res://Objects/Debug
+res://Objects/Effects
+res://Objects/Towers
+res://Objects
+res://Objects/Effects/debug
+res://Objects/Enemy/Director
 res://

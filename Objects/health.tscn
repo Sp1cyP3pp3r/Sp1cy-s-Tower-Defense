@@ -1,0 +1,59 @@
+[gd_scene load_steps=6 format=3 uid="uid://c60wqnmed5dvi"]
+
+[ext_resource type="Script" path="res://Objects/health.gd" id="1_5gvt4"]
+[ext_resource type="Texture2D" uid="uid://bnuhdnfj8s0vs" path="res://Objects/Enemy/armor.png" id="2_vl5th"]
+[ext_resource type="LabelSettings" uid="uid://cej7crv8jmoia" path="res://Objects/Enemy/debug_font.tres" id="3_rvhuh"]
+[ext_resource type="Texture2D" uid="uid://ce0cac42ohrm1" path="res://Objects/Enemy/lesser_healing.png" id="4_sta32"]
+
+[sub_resource type="SystemFont" id="SystemFont_mp15a"]
+font_names = PackedStringArray("Certa Sans")
+font_weight = 100
+font_stretch = 50
+force_autohinter = true
+hinting = 0
+subpixel_positioning = 2
+multichannel_signed_distance_field = true
+
+[node name="Health" type="Node"]
+script = ExtResource("1_5gvt4")
+
+[node name="Node2D" type="Node2D" parent="."]
+
+[node name="ProgressBar" type="ProgressBar" parent="Node2D"]
+unique_name_in_owner = true
+z_index = 10
+offset_left = -18.0
+offset_top = -22.0
+offset_right = 20.0
+offset_bottom = -14.0
+theme_override_fonts/font = SubResource("SystemFont_mp15a")
+theme_override_font_sizes/font_size = 3
+
+[node name="Armor" type="Sprite2D" parent="Node2D"]
+position = Vector2(-45.6, -17)
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("2_vl5th")
+
+[node name="Label" type="Label" parent="Node2D/Armor"]
+offset_left = 8.0
+offset_top = -6.0
+offset_right = 48.0
+offset_bottom = 17.0
+scale = Vector2(0.8, 0.8)
+text = "armor"
+label_settings = ExtResource("3_rvhuh")
+metadata/_edit_use_anchors_ = true
+
+[node name="Lesser" type="Sprite2D" parent="Node2D"]
+position = Vector2(-45.6, 2)
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("4_sta32")
+
+[node name="Label" type="Label" parent="Node2D/Lesser"]
+offset_left = 8.0
+offset_top = -6.0
+offset_right = 48.0
+offset_bottom = 17.0
+text = "lesser
+healing"
+label_settings = ExtResource("3_rvhuh")

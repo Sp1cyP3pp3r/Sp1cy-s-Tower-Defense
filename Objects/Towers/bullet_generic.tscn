@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://m5hs8x1e78b4"]
+
+[ext_resource type="Script" path="res://Objects/Towers/bullet_generic.gd" id="1_eaoap"]
+[ext_resource type="Texture2D" uid="uid://belnrnp7gef8p" path="res://icon.svg" id="2_7vlet"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_bqd8m"]
+radius = 4.0
+
+[node name="BulletGeneric" type="Area2D"]
+collision_layer = 32
+collision_mask = 20
+input_pickable = false
+script = ExtResource("1_eaoap")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -1.19209e-07)
+scale = Vector2(0.0625, 0.0625)
+texture = ExtResource("2_7vlet")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_bqd8m")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
