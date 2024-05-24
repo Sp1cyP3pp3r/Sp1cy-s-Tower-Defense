@@ -33,7 +33,7 @@ func receive_damage(amount : float, source : Node) -> void:
 	if parent.stats.damage_resistance >= 0:
 		mitigated_damage = amount * (100 / (100 + parent.stats.damage_resistance))
 	else:
-		mitigated_damage = amount * (10 - (100 / (100 - parent.stats.damage_resistance)))
+		mitigated_damage = amount * (2 - (100 / (100 - parent.stats.damage_resistance)))
 	change_health(-mitigated_damage, source)
 	damaged.emit(mitigated_damage, amount, source)
 

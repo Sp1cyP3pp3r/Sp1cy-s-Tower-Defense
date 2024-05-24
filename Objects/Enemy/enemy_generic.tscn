@@ -44,5 +44,4 @@ vertical_alignment = 1
 [node name="Health" parent="." node_paths=PackedStringArray("parent") instance=ExtResource("3_bec11")]
 parent = NodePath("..")
 
-[connection signal="area_entered" from="Hitbox" to="." method="bullet_hit"]
 [connection signal="final_blow" from="Health" to="." method="death"]

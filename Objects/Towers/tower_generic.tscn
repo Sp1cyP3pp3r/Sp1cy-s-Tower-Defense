@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://du8odclrngeev"]
+[gd_scene load_steps=6 format=3 uid="uid://du8odclrngeev"]
 
 [ext_resource type="Texture2D" uid="uid://cw20d3f5la412" path="res://Objects/Towers/twr_base.png" id="1_as16n"]
+[ext_resource type="Script" path="res://Objects/Towers/tower_generic.gd" id="1_l0ukt"]
 [ext_resource type="Texture2D" uid="uid://ymbj2otsm8nr" path="res://Objects/Towers/twr_gun.png" id="2_6h8dl"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_coa62"]
@@ -9,9 +10,14 @@ radius = 53.0377
 [sub_resource type="CircleShape2D" id="CircleShape2D_4yolc"]
 radius = 8.0
 
-[node name="StaticBody2D" type="StaticBody2D"]
+[node name="TowerGeneric" type="StaticBody2D"]
+collision_layer = 66
+collision_mask = 0
+script = ExtResource("1_l0ukt")
 
 [node name="Viewcone" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 16
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Viewcone"]
 shape = SubResource("CircleShape2D_coa62")
@@ -24,9 +30,14 @@ collision_mask = 24
 rotation = 0.00722644
 shape = SubResource("CircleShape2D_4yolc")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="TowerBase" type="Sprite2D" parent="."]
 texture = ExtResource("1_as16n")
 
-[node name="Sprite2D" type="Sprite2D" parent="Sprite2D"]
+[node name="TowerGun" type="Sprite2D" parent="TowerBase"]
 texture = ExtResource("2_6h8dl")
 offset = Vector2(1, 0.5)
+
+[node name="Marker2D" type="Marker2D" parent="TowerBase/TowerGun"]
+position = Vector2(8, 0)
+
+[connection signal="area_entered" from="Viewcone" to="." method="add_enemy"]

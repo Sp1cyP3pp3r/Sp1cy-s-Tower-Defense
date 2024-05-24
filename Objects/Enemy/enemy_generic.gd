@@ -4,6 +4,7 @@ class_name EnemyGeneric
 @export var stats : EnemyStats
 @onready var health_node = $Health
 
+signal enemy_death(enemy) # Need to change??
 
 func _physics_process(delta):
 	progress += stats.speed * delta
@@ -13,4 +14,5 @@ func _physics_process(delta):
 	label.text = str(stats.speed)
 
 func death(_source):
+	enemy_death.emit(self)
 	queue_free()
