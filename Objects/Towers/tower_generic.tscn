@@ -1,19 +1,39 @@
-[gd_scene load_steps=6 format=3 uid="uid://du8odclrngeev"]
+[gd_scene load_steps=12 format=3 uid="uid://du8odclrngeev"]
 
 [ext_resource type="Texture2D" uid="uid://cw20d3f5la412" path="res://Objects/Towers/twr_base.png" id="1_as16n"]
 [ext_resource type="Script" path="res://Objects/Towers/tower_generic.gd" id="1_l0ukt"]
 [ext_resource type="Texture2D" uid="uid://ymbj2otsm8nr" path="res://Objects/Towers/twr_gun.png" id="2_6h8dl"]
+[ext_resource type="Script" path="res://Objects/Towers/tower_stats.gd" id="2_7igfg"]
+[ext_resource type="Script" path="res://Objects/Towers/Gunpoint.gd" id="5_6j585"]
+[ext_resource type="PackedScene" uid="uid://m5hs8x1e78b4" path="res://Objects/Towers/bullet_generic.tscn" id="6_05pgn"]
+[ext_resource type="LabelSettings" uid="uid://cej7crv8jmoia" path="res://Objects/Enemy/debug_font.tres" id="6_43uyq"]
+
+[sub_resource type="Resource" id="Resource_lxbv6"]
+script = ExtResource("2_7igfg")
+range = 50.0
+rotation_speed = 150.0
+firerate = 1.257
+damage = 25.0
+seeker = false
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_coa62"]
 radius = 53.0377
 
+[sub_resource type="SphereMesh" id="SphereMesh_1ld4a"]
+radius = 10.0
+height = 20.0
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_4yolc"]
 radius = 8.0
 
-[node name="TowerGeneric" type="StaticBody2D"]
+[node name="TowerGeneric" type="StaticBody2D" node_paths=PackedStringArray("tower_gun", "no_wall_raycast", "reload_timer")]
 collision_layer = 66
 collision_mask = 0
 script = ExtResource("1_l0ukt")
+stats = SubResource("Resource_lxbv6")
+tower_gun = NodePath("TowerBase/TowerGun")
+no_wall_raycast = NodePath("TowerBase/TowerGun/NoWallCast")
+reload_timer = NodePath("ReloadTimer")
 
 [node name="Viewcone" type="Area2D" parent="."]
 collision_layer = 0
@@ -23,10 +43,12 @@ collision_mask = 16
 shape = SubResource("CircleShape2D_coa62")
 debug_color = Color(0.12549, 0.803922, 0.776471, 0.419608)
 
-[node name="RayCast2D" type="RayCast2D" parent="Viewcone"]
-collision_mask = 24
+[node name="MeshInstance2D" type="MeshInstance2D" parent="Viewcone/CollisionShape2D"]
+modulate = Color(0.388235, 0.611765, 1, 0.0862745)
+scale = Vector2(5.33851, 5.33851)
+mesh = SubResource("SphereMesh_1ld4a")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="TowerCollision" type="CollisionShape2D" parent="."]
 rotation = 0.00722644
 shape = SubResource("CircleShape2D_4yolc")
 
@@ -37,7 +59,46 @@ texture = ExtResource("1_as16n")
 texture = ExtResource("2_6h8dl")
 offset = Vector2(1, 0.5)
 
-[node name="Marker2D" type="Marker2D" parent="TowerBase/TowerGun"]
+[node name="NoWallCast" type="RayCast2D" parent="TowerBase/TowerGun"]
 position = Vector2(8, 0)
+enabled = false
+target_position = Vector2(45, 0)
+collision_mask = 12
 
+[node name="Gunpoint" type="Marker2D" parent="TowerBase/TowerGun"]
+position = Vector2(8, 0)
+script = ExtResource("5_6j585")
+bullet = ExtResource("6_05pgn")
+
+[node name="MainRaycast" type="RemoteTransform2D" parent="TowerBase/TowerGun/Gunpoint"]
+remote_path = NodePath("../../NoWallCast")
+update_scale = false
+
+[node name="Label" type="Label" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -420.5
+offset_top = -11.5
+offset_right = 420.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+text = "enimes
+
+"
+label_settings = ExtResource("6_43uyq")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ReloadTimer" type="Timer" parent="."]
+process_callback = 0
+one_shot = true
+
+[connection signal="aim_mode_changed" from="." to="." method="assign_current_target"]
 [connection signal="area_entered" from="Viewcone" to="." method="add_enemy"]
+[connection signal="area_exited" from="Viewcone" to="." method="remove_enemy"]
+[connection signal="timeout" from="ReloadTimer" to="." method="assign_current_target"]

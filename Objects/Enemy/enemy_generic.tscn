@@ -41,6 +41,14 @@ label_settings = ExtResource("4_l6a2f")
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="Label2" type="Label" parent="Debug"]
+offset_left = -9.0
+offset_top = 10.0
+offset_right = 9.0
+offset_bottom = 20.0
+text = "hider"
+label_settings = ExtResource("4_l6a2f")
+
 [node name="Health" parent="." node_paths=PackedStringArray("parent") instance=ExtResource("3_bec11")]
 parent = NodePath("..")
 

@@ -31,5 +31,6 @@ func remove_enemy(area):
 					effect.queue_free()
 			# It is best to not erase something in array while iterating over it (real)
 			array_to_delete = nested_array
+	enemy.disconnect(&"enemy_death", Callable(self, &"remove_enemy"))
 	enemies_in_area.erase(array_to_delete)
 

@@ -11,9 +11,17 @@ config_version=5
 [application]
 
 config/name="Sp1cy's Tower Defense"
+config/version="0.1"
 run/main_scene="res://basic_test_level.tscn"
 config/features=PackedStringArray("4.2", "GL Compatibility")
 config/icon="res://icon.svg"
+
+[display]
+
+window/size/viewport_width=385
+window/size/viewport_height=275
+window/size/mode=2
+window/stretch/mode="canvas_items"
 
 [layer_names]
 

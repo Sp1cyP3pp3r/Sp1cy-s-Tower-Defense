@@ -4,8 +4,13 @@ class_name Bullet
 @export var custom_effects : CreateEffects
 @export var damage : float = 12
 
+var speed : float = 0
+
 signal bullet_destroyed
 signal effects_applied(effects : Array[Effect])
+
+func _physics_process(delta):
+	global_position += speed * rotation * delta
 
 func _on_area_entered(area):
 	if area.get_owner() is EnemyGeneric:
