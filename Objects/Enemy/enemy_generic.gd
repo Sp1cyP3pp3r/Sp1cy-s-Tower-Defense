@@ -1,18 +1,19 @@
-extends PathFollow2D
+extends CharacterBody2D
 class_name EnemyGeneric
 
 @export var stats : EnemyStats
-@onready var health_node = $Health
+@export var health_node : Health
+@onready var path_follow = get_owner()
 
 signal enemy_death(enemy) # Need to change??
 signal became_hider
 signal tag_youre_it # No more hider
 
 func _physics_process(delta):
-	progress += stats.speed * delta
+	path_follow.progress += stats.speed * delta
 	
-	var label : Label= $Debug/Label
-	var label_hds : Label = $Debug/Label2
+	var label : Label= $"../Debug/Label"
+	var label_hds : Label = $"../Debug/Label2"
 	label.global_position = global_position
 	label_hds.global_position = global_position + Vector2(0,8)
 	label.text = str(stats.speed)
@@ -35,3 +36,9 @@ func hide_and_seek(hider : bool) -> void:
 			tag_youre_it.emit()
 		else:
 			return
+
+func get_progress() -> float:
+	return owner.progress
+
+func get_progress_ratio() -> float:
+	return owner.progress_ratio

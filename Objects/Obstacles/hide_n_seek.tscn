@@ -1,0 +1,52 @@
+[gd_scene load_steps=7 format=3 uid="uid://ks2swb203pd1"]
+
+[sub_resource type="GDScript" id="GDScript_8g018"]
+script/source = "extends Area2D
+
+func enemy_entered(object):
+	var enemy = object
+	enemy.hide_and_seek(true)
+	print(enemy.get_groups())
+
+
+func enemy_exited(object):
+	var enemy = object
+	enemy.hide_and_seek(false)
+	print(enemy.get_groups())
+"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_exa7r"]
+size = Vector2(66.5, 55.5)
+
+[sub_resource type="BoxMesh" id="BoxMesh_fd51g"]
+size = Vector3(1, 2, 1)
+
+[sub_resource type="Gradient" id="Gradient_13tk3"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_u8g7b"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_0fj5c"]
+color_ramp = SubResource("Gradient_13tk3")
+noise = SubResource("FastNoiseLite_u8g7b")
+
+[node name="HideNSeek" type="Area2D"]
+rotation = 3.14159
+collision_layer = 0
+collision_mask = 16
+script = SubResource("GDScript_8g018")
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-12, 5)
+shape = SubResource("RectangleShape2D_exa7r")
+debug_color = Color(0.888919, 0.203183, 0.640172, 0.42)
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="."]
+modulate = Color(1, 0.411765, 0.690196, 0.12549)
+position = Vector2(-12, 5)
+scale = Vector2(64.4318, 26.5854)
+mesh = SubResource("BoxMesh_fd51g")
+texture = SubResource("NoiseTexture2D_0fj5c")
+
+[connection signal="body_entered" from="." to="." method="enemy_entered"]
+[connection signal="body_exited" from="." to="." method="enemy_exited"]

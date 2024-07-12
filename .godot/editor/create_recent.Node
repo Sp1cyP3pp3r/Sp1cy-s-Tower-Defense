@@ -1,6 +1,7 @@
+CollisionShape2D
+CharacterBody2D
 Label
 MeshInstance2D
-CollisionShape2D
 Timer
 RemoteTransform2D
 Marker2D
@@ -11,4 +12,3 @@ Area2D
 CollisionPolygon2D
 ProgressBar
 Node
-CharacterBody2D

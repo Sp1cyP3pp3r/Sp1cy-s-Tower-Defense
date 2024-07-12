@@ -14,15 +14,15 @@ var enemies_in_area : Array = []
 func _process(delta):
 	$Label.text = str(enemies_in_area)
 
-func add_enemy(area):
-	var enemy = area.get_owner()
+func add_enemy(object):
+	var enemy = object
 	var enemy_array : Array = [enemy, create_effects.add_effects(enemy)]
 	enemy.connect(&"enemy_death", Callable(self, &"remove_enemy"))
 	enemies_in_area.append(enemy_array)
 
 
-func remove_enemy(area):
-	var enemy = area.get_owner() if not area is EnemyGeneric else area
+func remove_enemy(object):
+	var enemy = object
 	var array_to_delete : Array
 	for nested_array in enemies_in_area:
 		if nested_array[0] == enemy:

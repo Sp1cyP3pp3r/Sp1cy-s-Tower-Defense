@@ -1,4 +1,4 @@
-extends StaticBody2D
+extends CharacterBody2D
 class_name TowerGeneric
 
 enum AIM_MODE {First, Last, Near, Far, Random, Strong, Weak}
@@ -12,6 +12,8 @@ enum AIM_MODE {First, Last, Near, Far, Random, Strong, Weak}
 var enemies_in_viewcone : Array[EnemyGeneric] = []
 var gunpoints_array : Array[Gunpoint] = []
 
+var _debug_current_target = null
+
 signal aim_mode_changed(aim_mode)
 
 func _ready():
@@ -19,24 +21,24 @@ func _ready():
 
 
 func _physics_process(delta):
-	$Label.text = str(enemies_in_viewcone) + "\n" + str(assign_current_target(current_aim_mode, enemies_in_viewcone))
+	$Label.text = str(enemies_in_viewcone) + "\n" + str(_debug_current_target)
 
-func add_enemy(area):
-	var enemy = area.get_owner() if not area is EnemyGeneric else area
+func add_enemy(object):
+	var enemy = object
 	if not enemies_in_viewcone.has(enemy):
 		enemies_in_viewcone.append(enemy)
-		#enemy.connect(&"enemy_death", Callable(self, &"remove_enemy"))
-		#enemy.connect(&"became_hider", Callable(assign_current_target).bind(current_aim_mode, enemies_in_viewcone))
-		#enemy.connect(&"tag_youre_it", Callable(assign_current_target).bind(current_aim_mode, enemies_in_viewcone))
+		enemy.connect(&"enemy_death", Callable(self, &"remove_enemy"))
+		enemy.connect(&"became_hider", Callable(assign_current_target).bind(current_aim_mode, enemies_in_viewcone))
+		enemy.connect(&"tag_youre_it", Callable(assign_current_target).bind(current_aim_mode, enemies_in_viewcone))
 	assign_current_target(current_aim_mode, enemies_in_viewcone)
 
-func remove_enemy(area):
-	var enemy = area.get_owner() if not area is EnemyGeneric else area
+func remove_enemy(object):
+	var enemy = object
 	if enemies_in_viewcone.has(enemy):
 		enemies_in_viewcone.erase(enemy)
-		#enemy.disconnect(&"enemy_death", Callable(self, &"remove_enemy"))
-		#enemy.disconnect(&"became_hider", Callable(self, &"assign_current_target"))
-		#enemy.disconnect(&"tag_youre_it", Callable(self, &"assign_current_target"))
+		enemy.disconnect(&"enemy_death", Callable(self, &"remove_enemy"))
+		enemy.disconnect(&"became_hider", Callable(self, &"assign_current_target"))
+		enemy.disconnect(&"tag_youre_it", Callable(self, &"assign_current_target"))
 	assign_current_target(current_aim_mode, enemies_in_viewcone)
 
 func assign_current_target(aim : AIM_MODE, enemies : Array[EnemyGeneric]) -> EnemyGeneric:
@@ -47,12 +49,12 @@ func assign_current_target(aim : AIM_MODE, enemies : Array[EnemyGeneric]) -> Ene
 		AIM_MODE.First:
 			for enemy in enemies:
 				if can_see_enemy(enemy):
-					if enemy.progress_ratio > _pref_enemy.progress_ratio:
+					if enemy.get_progress_ratio() > _pref_enemy.get_progress_ratio():
 						_pref_enemy = enemy
 		AIM_MODE.Last:
 			for enemy in enemies:
 				if can_see_enemy(enemy):
-					if enemy.progress_ratio < _pref_enemy.progress_ratio:
+					if enemy.get_progress_ratio() < _pref_enemy.get_progress_ratio():
 						_pref_enemy = enemy
 		AIM_MODE.Near:
 			#for enemy in enemies:
@@ -80,8 +82,10 @@ func assign_current_target(aim : AIM_MODE, enemies : Array[EnemyGeneric]) -> Ene
 			#for enemy in enemies:
 				pass
 	if can_see_enemy(_pref_enemy):
+		_debug_current_target = _pref_enemy
 		return _pref_enemy
 	else:
+		_debug_current_target = null
 		return
 
 func can_see_enemy(enemy) -> bool:

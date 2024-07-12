@@ -6,26 +6,27 @@
 [ext_resource type="PackedScene" uid="uid://c60wqnmed5dvi" path="res://Objects/health.tscn" id="3_bec11"]
 [ext_resource type="LabelSettings" uid="uid://cej7crv8jmoia" path="res://Objects/Enemy/debug_font.tres" id="4_l6a2f"]
 
-[sub_resource type="Resource" id="Resource_yxep3"]
+[sub_resource type="Resource" id="Resource_d1bfn"]
 resource_local_to_scene = true
 script = ExtResource("2_547vt")
-speed = 30.0
+speed = 50.0
 max_hp = 100.0
-damage_resistance = 5.0
-healing_resistance = 0.0
+damage_resistance = 10.0
+healing_resistance = 15.0
 
-[node name="EnemyGeneric" type="PathFollow2D"]
-script = ExtResource("1_yg12y")
-stats = SubResource("Resource_yxep3")
+[node name="EnemyPathFollow" type="PathFollow2D"]
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_wi5vq")
-
-[node name="Hitbox" type="Area2D" parent="."]
+[node name="EnemyGeneric" type="CharacterBody2D" parent="." node_paths=PackedStringArray("health_node")]
 collision_layer = 16
 collision_mask = 32
+script = ExtResource("1_yg12y")
+stats = SubResource("Resource_d1bfn")
+health_node = NodePath("../Health")
 
-[node name="CollisionShape2D" type="CollisionPolygon2D" parent="Hitbox"]
+[node name="Sprite2D" type="Sprite2D" parent="EnemyGeneric"]
+texture = ExtResource("2_wi5vq")
+
+[node name="CollisionShape2D" type="CollisionPolygon2D" parent="EnemyGeneric"]
 polygon = PackedVector2Array(-3, -8, 8, 0, -3, 8, -8, 0)
 
 [node name="Debug" type="Node" parent="."]
@@ -50,6 +51,6 @@ text = "hider"
 label_settings = ExtResource("4_l6a2f")
 
 [node name="Health" parent="." node_paths=PackedStringArray("parent") instance=ExtResource("3_bec11")]
-parent = NodePath("..")
+parent = NodePath("../EnemyGeneric")
 
-[connection signal="final_blow" from="Health" to="." method="death"]
+[connection signal="final_blow" from="Health" to="EnemyGeneric" method="death"]

@@ -6,5 +6,7 @@ res://Objects/Enemy/enemy_generic.tscn
 res://Objects/Towers/bullet_generic.tscn
 res://Objects/Towers/aura_effect.tscn
 res://Objects/Effects/Effect.tscn
-res://Objects/Towers/tower_generic.gd
 res://Objects/Enemy/enemy_generic.gd
+res://Objects/Towers/aura_effect.gd
+res://Objects/Obstacles/hide_n_seek.tscn
+res://Objects/Towers/tower_generic.gd
