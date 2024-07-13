@@ -2,21 +2,20 @@ extends Area2D
 class_name Bullet
 
 @export var custom_effects : CreateEffects
-@export var damage : float = 12
-
-var speed : float = 0
+@export var stats : BulletStats
 
 signal bullet_destroyed
 signal effects_applied(effects : Array[Effect])
 
 func _physics_process(delta):
-	global_position += speed * rotation * delta
+	global_position += stats.speed * transform.x * delta
 
-func _on_area_entered(area):
-	if area.get_owner() is EnemyGeneric:
-		var enemy = area.get_owner() as EnemyGeneric
+
+func hit_enemy(object):
+	if object is EnemyGeneric:
+		var enemy = object
 		apply_effects(enemy)
-		enemy.health_node.receive_damage(damage, self)
+		enemy.health_node.receive_damage(stats.damage, self)
 	destroy()
 
 func destroy():

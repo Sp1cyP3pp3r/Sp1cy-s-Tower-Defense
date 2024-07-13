@@ -21,7 +21,10 @@ collision_layer = 16
 collision_mask = 32
 script = ExtResource("1_yg12y")
 stats = SubResource("Resource_d1bfn")
-health_node = NodePath("../Health")
+health_node = NodePath("Health")
+
+[node name="Health" parent="EnemyGeneric" node_paths=PackedStringArray("parent") instance=ExtResource("3_bec11")]
+parent = NodePath("..")
 
 [node name="Sprite2D" type="Sprite2D" parent="EnemyGeneric"]
 texture = ExtResource("2_wi5vq")
@@ -50,7 +53,4 @@ offset_bottom = 20.0
 text = "hider"
 label_settings = ExtResource("4_l6a2f")
 
-[node name="Health" parent="." node_paths=PackedStringArray("parent") instance=ExtResource("3_bec11")]
-parent = NodePath("../EnemyGeneric")
-
-[connection signal="final_blow" from="Health" to="EnemyGeneric" method="death"]
+[connection signal="final_blow" from="EnemyGeneric/Health" to="EnemyGeneric" method="death"]

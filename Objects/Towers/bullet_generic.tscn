@@ -1,7 +1,14 @@
-[gd_scene load_steps=4 format=3 uid="uid://m5hs8x1e78b4"]
+[gd_scene load_steps=6 format=3 uid="uid://m5hs8x1e78b4"]
 
 [ext_resource type="Script" path="res://Objects/Towers/bullet_generic.gd" id="1_eaoap"]
 [ext_resource type="Texture2D" uid="uid://belnrnp7gef8p" path="res://icon.svg" id="2_7vlet"]
+[ext_resource type="Script" path="res://Objects/Towers/bullet_stats.gd" id="2_j46mb"]
+
+[sub_resource type="Resource" id="Resource_pqau8"]
+resource_local_to_scene = true
+script = ExtResource("2_j46mb")
+speed = 65.0
+damage = 10.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_bqd8m"]
 radius = 4.0
@@ -11,6 +18,7 @@ collision_layer = 32
 collision_mask = 20
 input_pickable = false
 script = ExtResource("1_eaoap")
+stats = SubResource("Resource_pqau8")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(0, -1.19209e-07)
@@ -20,4 +28,9 @@ texture = ExtResource("2_7vlet")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_bqd8m")
 
-[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(-2.38419e-07, 2.38419e-07)
+scale = Vector2(0.4, 0.4)
+
+[connection signal="body_entered" from="." to="." method="hit_enemy"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="destroy"]

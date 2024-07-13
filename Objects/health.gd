@@ -1,7 +1,7 @@
 extends Node
 class_name Health
 
-@export var parent : Node 
+@export var parent : Node
 
 signal hp_changed(difference : float)
 signal damaged(amount_dealt : float, original_amount : float, source_of_damage : Node)
@@ -29,7 +29,7 @@ func change_health(amount : float, source : Node) -> void:
 func receive_damage(amount : float, source : Node) -> void:
 	if amount <= 0:
 		return
-	var mitigated_damage
+	var mitigated_damage : float = 0
 	if parent.stats.damage_resistance >= 0:
 		mitigated_damage = amount * (100 / (100 + parent.stats.damage_resistance))
 	else:
@@ -40,7 +40,7 @@ func receive_damage(amount : float, source : Node) -> void:
 func receive_healing(amount : float, source : Node) -> void:
 	if amount <= 0:
 		return
-	var mitigated_healing
+	var mitigated_healing : float = 0
 	if parent.stats.healing_resistance >= 0:
 		mitigated_healing = amount * (100 / (100 + parent.stats.healing_resistance))
 	else:

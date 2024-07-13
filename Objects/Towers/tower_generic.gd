@@ -6,8 +6,6 @@ enum AIM_MODE {First, Last, Near, Far, Random, Strong, Weak}
 @export var stats : TowerStats
 @export var current_aim_mode : AIM_MODE = AIM_MODE.First
 @export var tower_gun : Sprite2D
-@export var no_wall_raycast : RayCast2D
-@export var reload_timer : Timer
 
 var enemies_in_viewcone : Array[EnemyGeneric] = []
 var gunpoints_array : Array[Gunpoint] = []
@@ -19,18 +17,26 @@ signal aim_mode_changed(aim_mode)
 func _ready():
 	update_gunpoints()
 
-
 func _physics_process(delta):
-	$Label.text = str(enemies_in_viewcone) + "\n" + str(_debug_current_target)
+	#$Label.text = str(enemies_in_viewcone) + "\n" + str(_debug_current_target)
+	var _enemy = assign_current_target(current_aim_mode, enemies_in_viewcone)
+	if _enemy:
+		tower_gun.look_at(_enemy.global_position)
+	
 
 func add_enemy(object):
+	var _do_fire : bool = false
+	if enemies_in_viewcone.is_empty():
+		_do_fire = true
 	var enemy = object
 	if not enemies_in_viewcone.has(enemy):
 		enemies_in_viewcone.append(enemy)
 		enemy.connect(&"enemy_death", Callable(self, &"remove_enemy"))
-		enemy.connect(&"became_hider", Callable(assign_current_target).bind(current_aim_mode, enemies_in_viewcone))
-		enemy.connect(&"tag_youre_it", Callable(assign_current_target).bind(current_aim_mode, enemies_in_viewcone))
-	assign_current_target(current_aim_mode, enemies_in_viewcone)
+		enemy.connect(&"became_hider", Callable(tower_fire).bind(0))
+		enemy.connect(&"tag_youre_it", Callable(tower_fire).bind(0))
+	#assign_current_target(current_aim_mode, enemies_in_viewcone)
+	if _do_fire:
+		tower_fire(0)
 
 func remove_enemy(object):
 	var enemy = object
@@ -39,7 +45,12 @@ func remove_enemy(object):
 		enemy.disconnect(&"enemy_death", Callable(self, &"remove_enemy"))
 		enemy.disconnect(&"became_hider", Callable(self, &"assign_current_target"))
 		enemy.disconnect(&"tag_youre_it", Callable(self, &"assign_current_target"))
-	assign_current_target(current_aim_mode, enemies_in_viewcone)
+	#assign_current_target(current_aim_mode, enemies_in_viewcone)
+	var _do_fire : bool = false
+	if not enemies_in_viewcone.is_empty():
+		_do_fire = true
+	if _do_fire:
+		tower_fire(0)
 
 func assign_current_target(aim : AIM_MODE, enemies : Array[EnemyGeneric]) -> EnemyGeneric:
 	if enemies.is_empty():
@@ -82,10 +93,10 @@ func assign_current_target(aim : AIM_MODE, enemies : Array[EnemyGeneric]) -> Ene
 			#for enemy in enemies:
 				pass
 	if can_see_enemy(_pref_enemy):
-		_debug_current_target = _pref_enemy
+		#_debug_current_target = _pref_enemy
 		return _pref_enemy
 	else:
-		_debug_current_target = null
+		#_debug_current_target = null
 		return
 
 func can_see_enemy(enemy) -> bool:
@@ -98,10 +109,15 @@ func can_see_enemy(enemy) -> bool:
 		return false
 	return true
 
-func tower_fire():
-	for gun in gunpoints_array:
-		#gun.fire()
-		pass
+func tower_fire(gunpoint):
+	var _enemy = assign_current_target(current_aim_mode, enemies_in_viewcone)
+	if _enemy:
+		tower_gun.look_at(_enemy.global_position)
+		if not gunpoint and not gunpoint is Gunpoint:
+			for gun in gunpoints_array:
+				gun.fire()
+		else:
+			gunpoint.fire()
 
 func update_gunpoints():
 	gunpoints_array.clear()

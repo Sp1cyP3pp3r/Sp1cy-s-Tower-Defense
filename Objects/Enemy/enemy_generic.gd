@@ -9,6 +9,8 @@ signal enemy_death(enemy) # Need to change??
 signal became_hider
 signal tag_youre_it # No more hider
 
+var is_dead : bool = false
+
 func _physics_process(delta):
 	path_follow.progress += stats.speed * delta
 	
@@ -21,7 +23,8 @@ func _physics_process(delta):
 
 func death(_source):
 	enemy_death.emit(self)
-	queue_free()
+	is_dead = true
+	owner.queue_free()
 
 func hide_and_seek(hider : bool) -> void:
 	if hider:

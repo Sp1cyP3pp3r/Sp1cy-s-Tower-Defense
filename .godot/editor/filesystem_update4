@@ -10,3 +10,11 @@ res://Objects/Enemy/enemy_generic.gd
 res://Objects/Towers/aura_effect.gd
 res://Objects/Obstacles/hide_n_seek.tscn
 res://Objects/Towers/tower_generic.gd
+res://Objects/Towers/bullet_generic.gd
+res://Objects/Towers/Gunpoint.gd
+res://Objects/Towers/BulletStats.gd
+res://Objects/Towers/bullet_stats.gd
+res://Objects/health.gd
+res://Objects/Towers/tower_stats.gd
+res://Objects/Enemy/Director/enemy_path_director.gd
+res://Objects/health.tscn
